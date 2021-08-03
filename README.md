@@ -10,7 +10,7 @@ This app will allow users to create notes in an organized manner. After a user c
 - [Testing](#test)
 - [Questions](#questions)
 ## Installation
-1) Intall express package and uniqid package. 
+1) Intall express package
 2) Run the server. 
 3) And, look up your local host in your browser.
 ## Usage
