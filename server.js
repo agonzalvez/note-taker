@@ -1,54 +1,30 @@
 const express = require('express');
-const path = require('path');
-const fs = require('fs');
 
+// EXPRESS CONFIGURATION
+// This sets up the basic properties for our express server
 
+// Tells node that we are creating an "express" server
 const app = express();
-const PORT = process.env.PORT || 3001;
 
+// Sets an initial port. We"ll use this later in our listener
+const PORT = process.env.PORT || 5500;
 
+// Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'))
+
+// ROUTER
+// The below points our server to a series of "route" files.
+// These routes give our server a "map" of how to respond when users visit or request data from various URLs.
 
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, 'public/notes.html')));
+require('./routes/htmlRoutes')(app);
+require('./routes/apiRoutes')(app); 
 
-app.post('/api/notes', (req, res) => {
-    var notes;
-    var note = req.body;
-    fs.readFile('db/db.json', 'utf8', (error, data) => {
-        error ? console.error(error) : notes = JSON.parse(data);
-        //console.log(notes);
-        notes.push(note);
-        fs.writeFile('db/db.json', JSON.stringify(notes), (err) =>
-            err ? console.error(err) : res.json(notes)
-        );
-    }
-    );
+// LISTENER
+// The below code effectively "starts" our server
+
+app.listen(PORT, () => {
+  console.log(`App listening on PORT: ${PORT}`);
 });
-
-app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname,'./db/db.json'), (err, data) => {
-        if(err) {
-            res.status(500);
-        }
-        res.json(JSON.parse(data));
-    });
-});
-
-
-app.delete('/api/notes/:id', (req, res) => {
-    var notes;
-    fs.readFile('db/db.json', 'utf8', (error, data) => {
-        error ? console.error(error) : notes = JSON.parse(data);
-        notes.splice(req.params.id, 1);
-        fs.writeFile('db/db.json', JSON.stringify(notes), (err) =>
-            err ? console.error(err) : res.json(notes)
-        );
-    }
-    );
-});
-
-app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
