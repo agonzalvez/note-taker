@@ -14,7 +14,8 @@ This app will allow users to create notes in an organized manner. After a user c
 2) Run the server. 
 3) And, look up your local host in your browser.
 ## Usage
-[Click](undefined) this link watch video walkthrough for this app. 
+- ![App demo](images/demo.gif)
+- [Link to deployed app](https://immense-tundra-08393.herokuapp.com/)
 ## License
 This application is under the MIT license.  
 ## Contributors
